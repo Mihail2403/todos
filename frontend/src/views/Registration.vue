@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <input v-model="username" placeholder="Username">
+  <div class="main-reg">
+    <input class="form-text" v-model="username" placeholder="Username">
     {{username}}
     <br>
-    <input v-model="email" placeholder="Email">
+    <input class="form-text" v-model="email" placeholder="Email">
     <br>
-    <input v-model="password" placeholder="Password">
+    <input class="form-text" v-model="password" placeholder="Password">
     <br>
-    <input type="submit" value="Send" @click.prevent="submitRegForm">
+    <input class="butt" type="submit" value="Send" @click.prevent="submitRegForm">
     {{message}}
   </div>
 </template>
@@ -35,6 +35,7 @@ export default {
         this.email = ""
         this.password = ""
         this.username = ""
+        location.assign('/login')
       } else {
         this.message = "Ты ишак"
       }
@@ -44,5 +45,17 @@ export default {
 </script>
 
 <style scoped>
-
+.main-reg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  height: 100%;
+  margin-top: 20%;
+}
+.form-text {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>

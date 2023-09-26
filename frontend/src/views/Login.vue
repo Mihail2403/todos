@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <input v-model="username" placeholder="Username">
+  <div class="main-login">
+    <input class="form-text" v-model="username" placeholder="Username">
     <br>
-    <input v-model="password" placeholder="Password">
+    <input class="form-text" v-model="password" placeholder="Password">
     <br>
-    <input type="submit" value="Send" @click.prevent="submitLoginForm">
+    <input class="butt" type="submit" value="Send" @click.prevent="submitLoginForm">
   </div>
 </template>
 
@@ -42,5 +42,17 @@ export default {
 </script>
 
 <style scoped>
-
+  .main-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    height: 100%;
+    margin-top: 20%;
+  }
+  .form-text {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 </style>

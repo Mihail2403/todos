@@ -1,7 +1,7 @@
 <template>
   <div class="task-body">
     <div class="text">{{task.text}}</div>
-    <button class="del">Удалить</button>
+    <button class="butt" @click="deleteTask">Удалить</button>
   </div>
 </template>
 
@@ -11,6 +11,11 @@ export default {
     task: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    deleteTask(){
+      this.$emit('deleteTask', this.task)
     }
   }
 }
@@ -28,7 +33,7 @@ export default {
   background: aliceblue;
   border-radius: 15px;
 }
-.del {
+.butt {
   width: 100px;
   margin-left: auto;
   margin-right: auto;
@@ -36,7 +41,7 @@ export default {
   color: aliceblue;
   border-radius: 5px;
 }
-.del:hover {
+.butt:hover {
   background: aliceblue;
   color: black;
 }

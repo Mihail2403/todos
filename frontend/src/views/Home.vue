@@ -2,11 +2,16 @@
   <div class="main-home-block">
     <div class="form-add-task">
       <div>Добавить задачу</div>
-      <input class="add-text" type="text" placeholder="Текст" maxlength="50">
-      <button class="del">Создать</button>
+      <input class="form-text" id="text" type="text" placeholder="Текст" maxlength="50">
+      <button class="butt" @click.prevent="addTask">Создать</button>
     </div>
-    <div v-for="task in tasks" class="tasks-list">
-      <task :task="task"/>
+    <div v-if="tasks.length > 0">
+      <div v-for="task in tasks" :key="tasks.indexOf(task)" class="tasks-list">
+        <task :task="task" @deleteTask="deleteTask"/>
+      </div>
+    </div>
+    <div v-else>
+      <task :task="{text:`Добавить новую задачу`}"/>
     </div>
   </div>
 </template>
@@ -26,9 +31,17 @@ function refresh(refresh){
             location.reload()
   }).catch(
       function (e) {
-        if (e.response.data.code === "token_not_valid") {
-          router.push('/login')
+        try{
+          console.log(e)
+          if (e.response.data.code === "token_not_valid") {
+            router.push('/login')
+          } else if (e.response.data.refresh[0] === "This field may not be null.") {
+            router.push('/login')
+          }
+        } catch (e) {
+          console.log(e)
         }
+
   })
 }
 export default {
@@ -36,6 +49,16 @@ export default {
   data(){
     return {
       tasks: [],
+    }
+  },
+  methods: {
+    addTask(){
+      var text = document.getElementById('text')
+      this.tasks.push({text:text.value, id:Math.random()})
+      text.value = ""
+    },
+    deleteTask(task){
+      this.tasks = this.tasks.filter(arr_task => arr_task.id !== task.id)
     }
   },
   mounted() {
@@ -62,7 +85,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
  .main-home-block {
     margin-left: auto;
     margin-right: auto;
@@ -74,12 +97,13 @@ export default {
    flex-direction: column;
    justify-content: center;
  }
- .add-text {
-   width: 100%;
+ .form-text {
+   width: 98%;
    border: black solid 2px;
    border-radius: 10px;
    padding-left: 3px;
    padding-right: 3px;
    height: 30px;
+   margin: 5px 0;
  }
 </style>
