@@ -1,3 +1,4 @@
+
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import response
@@ -19,13 +20,16 @@ class TODOListAPIView(APIView):
             print(e)
             return response.Response({"status":"bad"})
     def post(self, request):
-        try:
-            todo = TODO(text=request.body['text'], user=User.objects.get(id=request.user.id))
+        #try:
+            print(request.user)
+            todo = TODO(text=request.data['text'], user=User.objects.get(id=request.user.id))
+            print(2)
             todo.save()
+            print(3)
             return response.Response({"status":"good", "todo_id":todo.id})
-        except Exception as e:
-            print(e)
-            return response.Response({"status":"bad"})
+        #except Exception as e:
+        #    print(e)
+        #    return response.Response({"status":"bad"})
     def delete(self, request):
         try:
             todo = TODO.objects.get(id=request.user.id)

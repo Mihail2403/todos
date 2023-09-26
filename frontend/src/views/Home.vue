@@ -54,11 +54,46 @@ export default {
   methods: {
     addTask(){
       var text = document.getElementById('text')
-      this.tasks.push({text:text.value, id:Math.random()})
+      var task = this.tasks.push({text:text.value, id:Math.random()})
+      console.log(task)
+      axios.post('http://localhost:8000/api/v1/',
+          {
+            'text': text.value
+          },
+          {
+            headers:
+                {
+                  "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
+                }
+          }
+          )
+          .then(
+              function (response) {
+                if(response.data['status'] === 'bad'){
+                  console.log("trouble")
+                }
+      })
       text.value = ""
     },
     deleteTask(task){
       this.tasks = this.tasks.filter(arr_task => arr_task.id !== task.id)
+      axios.post('http://localhost:8000/api/v1/',
+          {
+
+          },
+          {
+            headers:
+                {
+                  "Authorization":`Bearer ${localStorage.getItem('accessToken')}`
+                }
+          }
+      )
+          .then(
+              function (response) {
+                if(response.data['status'] === 'bad'){
+                  console.log("trouble")
+                }
+              })
     }
   },
   mounted() {
@@ -89,7 +124,7 @@ export default {
  .main-home-block {
     margin-left: auto;
     margin-right: auto;
-    width: 380px;
+    width: 370px;
   }
  .form-add-task {
    width: 100%;

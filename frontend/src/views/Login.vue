@@ -1,22 +1,24 @@
 <template>
-  <div class="main-login">
+  <div id="main-login">
     <input class="form-text" v-model="username" placeholder="Username">
     <br>
     <input class="form-text" v-model="password" placeholder="Password">
     <br>
     <input class="butt" type="submit" value="Send" @click.prevent="submitLoginForm">
+    <div v-if="this.message !== ``">
+      {{message}}
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import router from "@/router";
 export default {
   data(){
     return {
       username: "",
       password: "",
-      message:""
+      message: ""
     }
   },
   methods:{
@@ -30,8 +32,15 @@ export default {
               console.log(response.data)
               localStorage.setItem('accessToken', response.data.access)
               localStorage.setItem('refreshToken', response.data.refresh)
-              router.push('/')
+              location.assign('/')
         })
+            .catch(
+                function(e){
+                  if(e.response.data.detail === "No active account found with the given credentials"){
+                    var el = document.getElementById('main-login')
+                    el.style.background = 'crimson'
+                  }
+            })
 
       } else {
         this.message = "Ты ишак"
@@ -42,13 +51,16 @@ export default {
 </script>
 
 <style scoped>
-  .main-login {
+  #main-login {
     display: flex;
     flex-direction: column;
     justify-content: center;
     justify-items: center;
     height: 100%;
     margin-top: 20%;
+    padding:20px;
+    border-radius: 20px;
+
   }
   .form-text {
     width: 300px;
