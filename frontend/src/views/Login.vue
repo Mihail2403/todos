@@ -36,9 +36,13 @@ export default {
         })
             .catch(
                 function(e){
-                  if(e.response.data.detail === "No active account found with the given credentials"){
-                    var el = document.getElementById('main-login')
-                    el.style.background = 'crimson'
+                  try {
+                    if (e.response.data.detail === "No active account found with the given credentials") {
+                      var el = document.getElementById('main-login')
+                      el.style.background = 'crimson'
+                    }
+                  }catch (err) {
+                    console.log(err)
                   }
             })
 
