@@ -77,9 +77,9 @@ export default {
     },
     deleteTask(task){
       this.tasks = this.tasks.filter(arr_task => arr_task.id !== task.id)
-      axios.post('http://localhost:8000/api/v1/',
+      axios.post('http://localhost:8000/api/v1/delete/',
           {
-
+            'text':task.text
           },
           {
             headers:

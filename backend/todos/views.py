@@ -19,20 +19,23 @@ class TODOListAPIView(APIView):
         except Exception as e:
             print(e)
             return response.Response({"status":"bad"})
+    
     def post(self, request):
-        #try:
-            print(request.user)
-            todo = TODO(text=request.data['text'], user=User.objects.get(id=request.user.id))
-            print(2)
-            todo.save()
-            print(3)
-            return response.Response({"status":"good", "todo_id":todo.id})
-        #except Exception as e:
-        #    print(e)
-        #    return response.Response({"status":"bad"})
-    def delete(self, request):
         try:
-            todo = TODO.objects.get(id=request.user.id)
+            if TODO.objects.filter(text=request.data['text'], user=User.objects.get(id=request.user.id)).exists():
+                return response.Response({"status":"good"})
+            else:
+                todo = TODO(text=request.data['text'], user=User.objects.get(id=request.user.id))
+                todo.save()
+                return response.Response({"status":"good", "todo_id":todo.id})
+        except Exception as e:
+           print(e)
+           return response.Response({"status":"bad"})
+        
+class DeleteTODOAPIView(APIView):
+     def post(self, request):
+        try:
+            todo = TODO.objects.get(text=request.data['text'], user=User.objects.get(id=request.user.id))
             todo.delete()
             return response.Response({"status": "good", "del_todo_id": todo.id})
         except Exception as e:
